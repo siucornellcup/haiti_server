@@ -10,19 +10,22 @@ conn = psycopg2.connect("dbname=postgres user=postgres password=hi host=localhos
 # Open a cursor to perform database operations
 cur = conn.cursor()
 
+num_records = 1000
 insertions = 0
-while insertions < 10000000:
+while insertions < num_records:
 	name = fake.name()
 	village = fake.city()
 	dob = fake.date(pattern="%Y-%m-%d")
 	gend = fake.random_element(gender)
 	ethn = fake.random_element(ethnicity)
-	cur.execute("INSERT INTO clinic.patients(name, village, dob, gender, ethnicity) VALUES (%s, %s, %s, %s, %s)", 
+	fp_hash = fake.md5(raw_output=False)
+	cur.execute("INSERT INTO clinic.patients(name, village, dob, gender, ethnicity, fingerprint_hash) VALUES (%s, %s, %s, %s, %s, %s)", 
 											    (name,
 											     village, 
 											     dob,
 											     gend,
-											     ethn))
+											     ethn,
+											     fp_hash,))
 	conn.commit()
 	insertions += 1
 	print "Inserted %s into the database\n"%name
