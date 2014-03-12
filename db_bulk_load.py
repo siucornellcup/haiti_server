@@ -1,5 +1,6 @@
 """
-Bulk loads data into the database
+Bulk loads data into the database.
+Functions provided for bulk loading doctors, patients, and nurses tables.
 """
 
 from faker import Factory
@@ -72,8 +73,26 @@ def load_doctors(num_records):
 												     doc_id,))
 		conn.commit()
 		insertions += 1
-		print "Inserted %s into the database\n"%name		
+		print "Inserted %s into the database\n"%name
 
-load_doctors(num_records)
+def clear_doctors(cur,conn):
+	cur.execute("DELETE FROM clinic.doctors")
+	conn.commit()
+
+def clear_patients(cur,conn):
+	cur.execute("DELETE FROM clinic.patients")
+	conn.commit()
+
+def clear_nurses(cur,conn):
+	cur.execute("DELETE FROM clinic.nurses")
+	conn.commit()
+
+# load_doctors(100)
+# load_nurses(100)
+# load_patients(100)
+clear_doctors(cur,conn)
+clear_patients(cur,conn)
+clear_nurses(cur,conn)
+
 cur.close()
 conn.close()
