@@ -1,3 +1,7 @@
+"""
+Bulk loads data into the database
+"""
+
 from faker import Factory
 import psycopg2
 gender = ['Male','Female']
@@ -57,6 +61,18 @@ def load_nurses(num_records):
 		insertions += 1
 		print "Inserted %s into the database\n"%name
 # Close communication with the database
+
+def load_doctors(num_records):
+	insertions = 0
+	while insertions < num_records:
+		name = fake.name()
+		doc_id = fake.md5(raw_output=False)
+		cur.execute("INSERT INTO clinic.nurses(name, doc_id) VALUES (%s, %s)", 
+												    (name,
+												     docid,))
+		conn.commit()
+		insertions += 1
+		print "Inserted %s into the database\n"%name		
 
 load_nurses(num_records)
 cur.close()
