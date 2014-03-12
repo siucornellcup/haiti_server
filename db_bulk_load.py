@@ -67,13 +67,13 @@ def load_doctors(num_records):
 	while insertions < num_records:
 		name = fake.name()
 		doc_id = fake.md5(raw_output=False)
-		cur.execute("INSERT INTO clinic.nurses(name, doc_id) VALUES (%s, %s)", 
+		cur.execute("INSERT INTO clinic.doctors(name, doc_id) VALUES (%s, %s)", 
 												    (name,
-												     docid,))
+												     doc_id,))
 		conn.commit()
 		insertions += 1
 		print "Inserted %s into the database\n"%name		
 
-load_nurses(num_records)
+load_doctors(num_records)
 cur.close()
 conn.close()
