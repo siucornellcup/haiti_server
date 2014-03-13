@@ -44,11 +44,13 @@ def load_patients(num_records):
 												     ethn,
 												     fp_hash,
 												     psycopg2.Binary(id_photo)))
+		print "Status: " + cur.statusmessage
 		conn.commit()
 		insertions += 1
 		print "Inserted %s into the database\n"%name
 
 def load_nurses(num_records):
+	conn, cur = dblogin()
 	insertions = 0
 	while insertions < num_records:
 		name = fake.name()
@@ -64,9 +66,11 @@ def load_nurses(num_records):
 												     gend,
 												     fp_hash,
 												     psycopg2.Binary(id_photo)))
+		print "Status: " + cur.statusmessage
 		conn.commit()
 		insertions += 1
 		print "Inserted %s into the database\n"%name
+		
 
 def load_doctors(num_records):
 	insertions = 0
@@ -76,6 +80,7 @@ def load_doctors(num_records):
 		cur.execute("INSERT INTO clinic.doctors(name, doc_id) VALUES (%s, %s)", 
 												    (name,
 												     doc_id,))
+		print "Status: " + cur.statusmessage
 		conn.commit()
 		insertions += 1
 		print "Inserted %s into the database\n"%name
@@ -91,3 +96,11 @@ def clear_patients(conn,cur):
 def clear_nurses(conn,cur):
 	cur.execute("DELETE FROM clinic.nurses")
 	conn.commit()
+
+def nurse_lookup_fp(fingerprint):
+	conn, cur = dblogin()
+	cur.execute("SELECT * FROM clinic.nurses WHERE fingerprint_hash = %s",(fingerprint,))
+	result = cur.fetchone()
+	cur.close()
+	conn.close()
+	return result
