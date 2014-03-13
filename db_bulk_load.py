@@ -11,6 +11,7 @@ Don't forget to conn.close() and cur.close()
 from faker import Factory
 import psycopg2
 gender = ['Male','Female']
+#These ethnicities are taken from the US Census.
 ethnicity = ['White','Black','American Indian',
 			 'Asian Indian','Chinese','Filipino',
 			 'Other Asian','Japanese','Korean',
@@ -101,6 +102,10 @@ def nurse_lookup_fp(fingerprint):
 	conn, cur = dblogin()
 	cur.execute("SELECT * FROM clinic.nurses WHERE fingerprint_hash = %s",(fingerprint,))
 	result = cur.fetchone()
+	colnames = [description[0] for description in cur.description]
 	cur.close()
 	conn.close()
 	return result
+
+
+#Dummy fingerprint: 00372a6fb1a467b54992df4daf0dfa49
