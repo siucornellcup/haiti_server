@@ -1,9 +1,8 @@
-class Nurse(object):
-	"""Nurse class. This is a terrible docstring"""
+from db_bulk_load import nurse_lookup_fp
 
-	def __init__(self, name, village, dob, gender, fingerprint):
-		self.name = name
-		self.village = village
-		self.dob = dob
-		self.gender = gender
+class Nurse(object):
+	"""Nurse class. Initialized by fingerprint"""
+
+	def __init__(self, fingerprint):
 		self.fingerprint = fingerprint
+		self.fp_lookup = nurse_lookup_fp(fingerprint)
