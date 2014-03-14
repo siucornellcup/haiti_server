@@ -106,10 +106,7 @@ def nurse_lookup_fp(fingerprint):
 	cur.close()
 	conn.close()
 	if result != None:
-		result = zip(colnames,result)
-		dict_record = {}
-		for colname, value in result:
-			dict_record[colname] = value
+		dict_record = dict(zip(colnames,result))
 		return dict_record
 	else:
 		return None
