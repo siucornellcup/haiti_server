@@ -105,7 +105,13 @@ def nurse_lookup_fp(fingerprint):
 	colnames = [description[0] for description in cur.description]
 	cur.close()
 	conn.close()
-	return result
-
+	if result != None:
+		result = zip(colnames,result)
+		dict_record = {}
+		for colname, value in result:
+			dict_record[colname] = value
+		return dict_record
+	else:
+		return None
 
 #Dummy fingerprint: 00372a6fb1a467b54992df4daf0dfa49

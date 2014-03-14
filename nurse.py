@@ -9,6 +9,3 @@ class Nurse(object):
 
 	def exists(self):
 		return self.fp_lookup != None
-
-	# if exists() == True:
-	# 	self.name
