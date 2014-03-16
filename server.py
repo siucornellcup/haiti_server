@@ -30,6 +30,7 @@ def test_functionality():
 	s.close()
 
 def send_data(data, target, port):
+	data = json.dumps(data)
 	size = sys.getsizeof(data)
 	sock = socket.socket()
 	sock.connect((target, port))
