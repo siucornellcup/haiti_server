@@ -35,6 +35,7 @@ def test_functionality():
 def send_data(data, target, port):
 	datafile = open('temp','wb')
 	datafile = pickle.dumps(data)
+	datafile.close()
 	size = sys.getsizeof(data)
 	sock = socket.socket()
 	sock.connect((target, port))
