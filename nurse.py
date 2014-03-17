@@ -1,4 +1,4 @@
-from db_bulk_load import nurse_lookup_fp
+from dbTools import nurse_lookup_fp
 
 class Nurse(object):
 	"""Nurse class. Initialized by fingerprint md5 hash"""
