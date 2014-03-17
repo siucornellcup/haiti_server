@@ -60,6 +60,8 @@ def receive_data(port):
 			c.close()
 			datafile = open('temp','wb')
 			datafile.write(file)
+			datafile.close()
+			datafile = open('temp','rb')
 			new_object = pickle.load(datafile)
 			datafile.close()
 			return new_object
