@@ -10,7 +10,11 @@ class Nurse(object):
 			for e in self.fp_lookup.items():
 				setattr(self, e[0], e[1])
 			self.dob = str(self.dob)	#need to convert date object to string object so it can be serialized
+			self.id_photo = str(self.id_photo) #converts buffer to string for serialization
+			self.fp_lookup = None 
 
+	#def pack(self):
+	#	self.id_photo = str(self.id_photo)
 	# def exists(self):
 	# 	return self.fp_lookup != None
 
