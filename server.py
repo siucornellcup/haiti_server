@@ -2,6 +2,9 @@ import socket
 import json
 import sys
 import time
+import pickle
+
+## TODO: use pickling instead of json. pickling supports binary data
 
 def test_functionality():
 	s = socket.socket()
@@ -30,13 +33,14 @@ def test_functionality():
 	s.close()
 
 def send_data(data, target, port):
-	data = json.dumps(data)
+	datafile = open('temp','wb')
+	datafile = pickle.dumps(data)
 	size = sys.getsizeof(data)
 	sock = socket.socket()
 	sock.connect((target, port))
 	time.sleep(2)
 	sock.send(str(size))
-	sock.send(data)
+	sock.send(datafile)
 	sock.close
 	return True
 
@@ -54,7 +58,8 @@ def receive_data(port):
 			file = c.recv(int(size)+1024);
 			c.send('Connection closing...')
 			c.close()
-			new_object = json.loads(file)
+			datafile = open(file,'rb')
+			new_object = pickle.load(datafile)
 			return new_object
 		except KeyboardInterrupt:
 			return False
