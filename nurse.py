@@ -9,6 +9,7 @@ class Nurse(object):
 		if self.fp_lookup != None:
 			for e in self.fp_lookup.items():
 				setattr(self, e[0], e[1])
+			self.dob = str(self.dob)	#need to convert date object to string object so it can be serialized
 
 	# def exists(self):
 	# 	return self.fp_lookup != None
@@ -16,3 +17,5 @@ class Nurse(object):
 	# def set_attrs(self):
 	# 	for e in n1.fp_lookup.items():
 	# 		setattr(self, e[0], e[1])
+
+#Dummy fingerprint: 00372a6fb1a467b54992df4daf0dfa49
