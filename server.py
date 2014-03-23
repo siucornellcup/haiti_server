@@ -55,7 +55,7 @@ def receive_data(port):
 			size = c.recv(2048);
 			print 'Size was\n', size
 			file = c.recv(int(size)+2048);
-			print 'Received size is' sys.getsizeof(file)
+			print 'Received size is', sys.getsizeof(file)
 			c.send('Connection closing...')
 			c.close()
 			return file
