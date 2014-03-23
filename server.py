@@ -56,9 +56,7 @@ def receive_data(port):
 			file = c.recv(int(size)+1024);
 			c.send('Connection closing...')
 			c.close()
-			new_object = pickle.loads(file)
-			#datafile.close()
-			return new_object
+			return file
 		except KeyboardInterrupt:
 			return False
 	sock.close()
