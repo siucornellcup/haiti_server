@@ -33,15 +33,12 @@ def test_functionality():
 	s.close()
 
 def send_data(data, target, port):
-	datafile = open('temp','wb')
-	datafile = pickle.dumps(data)
-	datafile.close()
 	size = sys.getsizeof(data)
 	sock = socket.socket()
 	sock.connect((target, port))
 	time.sleep(2)
 	sock.send(str(size))
-	sock.send(datafile)
+	sock.send(data)
 	sock.close
 	return True
 
