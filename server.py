@@ -51,8 +51,9 @@ def receive_data(port):
 		try:
 			print "Awaiting connection request...\n"
 			c, addr = sock.accept()
-			print 'Got connection from', addr
-			size = c.recv(int(2048));
+			print 'Got connection from\n', addr
+			size = c.recv(2048);
+			print 'Size was\n', size
 			file = c.recv(int(size)+2048);
 			c.send('Connection closing...')
 			c.close()
