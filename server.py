@@ -62,13 +62,12 @@ def send_data(sock, data):
 	sock.sendall(data)
 	return sock
 
-def receive_data(sock):
+def receive_data(sock, port):
 	"""
 	Receives one message
-	Takes a socket object
+	Takes a socket object and a port integer to listen on
 	Returns a bytestream string and the same socket object
 	"""
-	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	sock.bind(('', port))
 	sock.listen(5)
@@ -99,3 +98,4 @@ def recvall(conn,count):
 		count -= len(newbuf)
 	return buf
 
+def decode_image()
