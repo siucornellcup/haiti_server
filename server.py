@@ -1,5 +1,5 @@
 import socket
-import json
+import struct
 import sys
 import time
 import pickle
@@ -51,21 +51,22 @@ def new_connection(sock,target,port):
 	time.sleep(2)
 	return sock
 
-def send_data(data, target, port):
+def send_data(sock, data):
 	"""
 	Sends one message
+	Takes a data object as a bytestream, and a socket object
+	Returns the socket object
 	"""
-	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	sock.connect((target, port))
-	time.sleep(2)
-	sock.send(str(size))
+	size = len(data)
+	sock.sendall(struct.pack('!I',size))
 	sock.sendall(data)
-	sock.close
-	return True
+	return sock
 
 def receive_data(sock):
 	"""
 	Receives one message
+	Takes a socket object
+	Returns a bytestream string and the same socket object
 	"""
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
