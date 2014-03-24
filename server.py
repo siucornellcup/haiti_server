@@ -98,4 +98,5 @@ def recvall(conn,count):
 		count -= len(newbuf)
 	return buf
 
-def decode_image()
+def decode_image():
+	pass
