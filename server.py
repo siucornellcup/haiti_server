@@ -7,6 +7,9 @@ import pickle
 ## TODO: use pickling instead of json. pickling supports binary data
 
 def test_functionality():
+	"""
+	First bit of code we wrote as a proof of concept
+	"""
 	s = socket.socket()
 	print "Creating Socket\n"
 	port = 12349
@@ -33,32 +36,50 @@ def test_functionality():
 	s.close()
 
 def send_data(data, target, port):
+	"""
+	Sends one message
+	"""
 	size = sys.getsizeof(data)
-	sock = socket.socket()
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.connect((target, port))
 	time.sleep(2)
 	sock.send(str(size))
-	sock.send(data)
+	sock.sendall(data)
 	sock.close
 	return True
 
-def receive_data(port):
-	sock = socket.socket()
+def receive_data(sock):
+	"""
+	Receives one message
+	"""
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	sock.bind(('', port))
 	sock.listen(5)
 	while True:
 		try:
 			print "Awaiting connection request...\n"
-			c, addr = sock.accept()
+			conn, addr = sock.accept()
 			print 'Got connection from\n', addr
-			size = c.recv(2048);
-			print 'Size was\n', size
-			file = c.recv(int(size)+2048);
-			print 'Received size is', sys.getsizeof(file)
-			c.send('Connection closing...')
-			c.close()
-			return file
+			sizebuf = recvall(conn,4); #if we start sending messages > 4GB, the number needs to be changed
+			size = struct.unpack('!I',sizebuf) #creates a set with an empty element.. TODO: amend that
+			data = recvall(conn, size[0]) #TODO: pass size as an int
+			return data
 		except KeyboardInterrupt:
 			return False
-	sock.close()
+
+def recvall(conn,count):
+	"""
+	Credit to the Stupid Python Idea's blog for this function
+	Counterpart to the sendall function.
+	Takes a connection object and a integer repesenting the length of the buffer
+	"""
+	#credit to the Stupid Python Idea's blog for this function
+	buf = b''
+	while count:
+		newbuf = conn.recv(count)
+		if not newbuf: return None
+		buf += newbuf
+		count -= len(newbuf)
+	return buf
+
