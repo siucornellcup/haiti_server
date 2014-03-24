@@ -79,7 +79,7 @@ def receive_data(sock, port):
 			sizebuf = recvall(conn,4); #if we start sending messages > 4GB, the number needs to be changed
 			size = struct.unpack('!I',sizebuf) #creates a set with an empty element.. TODO: amend that
 			data = recvall(conn, size[0]) #TODO: pass size as an int
-			return data, sock
+			return data
 		except KeyboardInterrupt:
 			return False
 
