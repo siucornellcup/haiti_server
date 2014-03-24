@@ -8,7 +8,7 @@ import pickle
 
 def test_functionality():
 	"""
-	First bit of code we wrote as a proof of concept
+	First bit of code Steve and I (mostly Steve) wrote as a proof of concept
 	"""
 	s = socket.socket()
 	print "Creating Socket\n"
@@ -35,11 +35,26 @@ def test_functionality():
 			running = False
 	s.close()
 
+def sock_drawer():
+	"""
+	Returns a socket object... get it? sock drawer? ... I'll show myself out.
+	"""
+	return socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+def new_connection(sock,target,port):
+	"""
+	Creates a new connection
+	Takes a socket object, target IP or hostname string, and port # integer
+	Returns socket object 
+	"""
+	sock.connect((target,port))
+	time.sleep(2)
+	return sock
+
 def send_data(data, target, port):
 	"""
 	Sends one message
 	"""
-	size = sys.getsizeof(data)
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.connect((target, port))
 	time.sleep(2)
@@ -64,7 +79,7 @@ def receive_data(sock):
 			sizebuf = recvall(conn,4); #if we start sending messages > 4GB, the number needs to be changed
 			size = struct.unpack('!I',sizebuf) #creates a set with an empty element.. TODO: amend that
 			data = recvall(conn, size[0]) #TODO: pass size as an int
-			return data
+			return data, sock
 		except KeyboardInterrupt:
 			return False
 
@@ -72,9 +87,9 @@ def recvall(conn,count):
 	"""
 	Credit to the Stupid Python Idea's blog for this function
 	Counterpart to the sendall function.
-	Takes a connection object and a integer repesenting the length of the buffer
+	Takes a connection object and an integer repesenting the length of the buffer
+	Returns a string representing a bytestream
 	"""
-	#credit to the Stupid Python Idea's blog for this function
 	buf = b''
 	while count:
 		newbuf = conn.recv(count)
